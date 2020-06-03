@@ -43,7 +43,14 @@ def log_in(browser, link, timeout, username, password):
     login = browser.find_element_by_xpath("//span[@id='submitButton']")
     login.click()
 
-# --------------
+def make_directories(course_links):
+    for course_id, (course_name, course_link) in course_links.items():
+        if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials')):
+            os.mkdir(os.path.join(os.curdir, 'Updated_materials'))
+        if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials', course_name)):
+            os.mkdir(os.path.join(os.curdir, 'Updated_materials', course_name))
+
+# -------------- METHODS ABOVE --------------- #
 
 option = webdriver.ChromeOptions()
 option.add_argument("--incognito")
@@ -85,18 +92,18 @@ wait_by_xpath(browser, timeout, "//nav//ul/li//a")
 print(courses)
 
 # Search for course IDs in menu
-course_links = []
+course_links = {}
 for course in courses:
     course_button = browser.find_element_by_xpath(f"//ul/li/div/div/div/a[contains(text(),'{course}')]") 
     course_content_link = course_button.get_attribute('href')
     course_id = course_content_link.split('/')[-1]
-    course_links.append((course_id, f"https://elearn.smu.edu.sg/d2l/le/content/{course_id}/Home"))
+    course_links[course_id] = (course, f"https://elearn.smu.edu.sg/d2l/le/content/{course_id}/Home")
 
 
 # --------- Elearn individual courses --------- #
 
 present_state = {}
-for course_id, course_link in course_links:
+for course_id, (course_name, course_link) in course_links.items():
     present_state[course_id] = {}
     browser.get(course_link)
     wait_by_xpath(browser, timeout, "//d2l-navigation-main-footer/div[@slot='main']")
@@ -138,7 +145,18 @@ for course_id, course_link in course_links:
             link = inner_item.get_attribute('href')
             present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link})
 
+
+# Make directories for downloaded files if not exist
+make_directories(course_links)
+
 if is_initial:
     with open('state.json', 'w') as f:
         json.dump(present_state, f, indent = 4)
     browser.quit()
+
+# --------- If this is not the first time --------- #
+    
+# else:
+#     # DIFFERENCE DICTIONARY
+#     difference_state = {}
+#     for course_id, course_dict in difference_state:
