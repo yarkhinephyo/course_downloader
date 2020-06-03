@@ -1,2 +1,2 @@
-smustu/<student id>
+smustu\<user>
 <password>
