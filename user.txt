@@ -1,2 +1,0 @@
-smustu\<user>
-<password>

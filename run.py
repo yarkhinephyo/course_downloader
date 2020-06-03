@@ -25,22 +25,31 @@ def get_menu_button(browser):
     sr2 = expand_shadow_element(browser, parent2)
     return sr2.find_element_by_css_selector("button[title='Select a course...']")
 
+def log_in(browser, link, timeout, username, password):
+    browser.get(link)
+    # Wait for log in page
+    wait_by_xpath(browser, timeout, "//img[@class='logoImage']")
+
+    user = browser.find_element_by_xpath("//input[@id='userNameInput']")
+    user.send_keys(username)
+    time.sleep(0.4)
+
+    pas = browser.find_element_by_xpath("//input[@id='passwordInput']")
+    pas.send_keys(password)
+    time.sleep(0.4)
+
+    login = browser.find_element_by_xpath("//span[@id='submitButton']")
+    login.click()
+
 # --------------
 
 option = webdriver.ChromeOptions()
 option.add_argument("--incognito")
 
 browser = webdriver.Chrome(executable_path='chromedriver.exe', options=option)
-
-LINK = "https://elearn.smu.edu.sg/d2l/lp/auth/saml/login"
 timeout = 10
 
 # --------- Login Page --------- #
-
-browser.get(LINK)
-
-# Wait for log in page
-wait_by_xpath(browser, timeout, "//img[@class='logoImage']")
 
 with open('user.txt', 'r') as f:
     text = f.read()
@@ -53,16 +62,7 @@ with open('courses.txt', 'r') as f:
     for course in text.split('\n'):
         courses.append(course)
 
-user = browser.find_element_by_xpath("//input[@id='userNameInput']")
-user.send_keys(username)
-time.sleep(0.4)
-
-pas = browser.find_element_by_xpath("//input[@id='passwordInput']")
-pas.send_keys(password)
-time.sleep(0.4)
-
-login = browser.find_element_by_xpath("//span[@id='submitButton']")
-login.click()
+log_in(browser, "https://elearn.smu.edu.sg/d2l/lp/auth/saml/login", timeout, username, password)
 
 # --------- Elearn Home --------- #
 
@@ -130,4 +130,3 @@ for course_id, course_link in course_links:
             link = inner_item.get_attribute('href')
             present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link})
 
-    print(present_state)
