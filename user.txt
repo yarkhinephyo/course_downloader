@@ -1,0 +1,2 @@
+smustu/<student id>
+<password>
