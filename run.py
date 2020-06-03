@@ -73,7 +73,7 @@ menu_button = get_menu_button(browser)
 menu_button.click()
 
 # Wait for menu
-wait_by_xpath(browser, timeout, "//div/span/d2l-button-icon[@icon='tier1:pin-hollow']")
+wait_by_xpath(browser, timeout, "//div/span/d2l-button-icon[starts-with(@icon,'tier1:pin-')]")
 print(courses)
 
 # Search for course IDs in menu
