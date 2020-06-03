@@ -3,155 +3,188 @@
         "Start Here": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367155/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367155/View",
+                "type": "Web Page"
             },
             {
                 "name": "eLearn Overview",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367196/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367196/View",
+                "type": "Video"
             },
             {
                 "name": "Course Description",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367157/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367157/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial- Navigation in eLearn",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367158/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367158/View",
+                "type": "Link"
             }
         ],
         "Module 1: Content": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367159/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367159/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial - Introduction to Content",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367160/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367160/View",
+                "type": "Link"
             }
         ],
         "Module 2: Discussions": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367161/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367161/View",
+                "type": "Web Page"
             },
             {
                 "name": "Key to Success: Communicating Online",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367162/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367162/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial - Introduction to Discussions",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367163/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367163/View",
+                "type": "Link"
             }
         ],
         "Module 3: Assignments": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367164/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367164/View",
+                "type": "Web Page"
             },
             {
                 "name": "Key to Success: Using Rich Text Format",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367165/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367165/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial - Introduction to Dropbox",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367166/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367166/View",
+                "type": "Link"
             }
         ],
         "Module 4: Assessment": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367197/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367197/View",
+                "type": "Web Page"
             },
             {
                 "name": "Key to Success: Online Testing Strategies",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367198/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367198/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial - Take a Quiz",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367199/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367199/View",
+                "type": "Web Page"
             },
             {
                 "name": "Self-Assessment",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367200/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367200/View",
+                "type": "Web Page"
             }
         ],
         "Module 5: Grades/Results": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367169/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367169/View",
+                "type": "Web Page"
             },
             {
                 "name": "Key to Success: Online Learning Guidelines",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367170/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367170/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial - Introduction to Grades",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367171/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367171/View",
+                "type": "Link"
             }
         ],
         "Module 6: Classlist": [
             {
                 "name": "INTRODUCTION",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367172/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367172/View",
+                "type": "Web Page"
             },
             {
                 "name": "Key to Success: Email Etiquette",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367173/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367173/View",
+                "type": "Web Page"
             }
         ],
         "ePortfolio": [
             {
                 "name": "ePotfolio - Introduction",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367179/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367179/View",
+                "type": "Web Page"
             },
             {
                 "name": "Video Tutorial-Introduction to ePortfolio",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367181/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367181/View",
+                "type": "Link"
             }
         ],
         "Google Apps": [
             {
                 "name": "Google for Education (Promo video)",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367184/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367184/View",
+                "type": "Link"
             },
             {
                 "name": "Google Apps for Education",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367182/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367182/View",
+                "type": "Link"
             },
             {
                 "name": "Google Apps - How to",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367183/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367183/View",
+                "type": "Link"
             }
         ],
         "Assistive Technology": [
             {
                 "name": "Diversity & Inclusion",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367185/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367185/View",
+                "type": "Link"
             },
             {
                 "name": "eLearn Accessibility",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367186/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367186/View",
+                "type": "Link"
             },
             {
                 "name": "Accessibility Resources",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367187/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367187/View",
+                "type": "Link"
             },
             {
                 "name": "Text to Speech - JAWS Screen Reader",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367188/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367188/View",
+                "type": "Link"
             },
             {
                 "name": "Text to Speech - Voiceover (Mac)",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367189/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367189/View",
+                "type": "Link"
             },
             {
                 "name": "Text to Speech - Narrator (Windows)",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367190/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367190/View",
+                "type": "Link"
             }
         ],
         "Want to Learn More or Need Help?": [
             {
                 "name": "eLearn Support Site",
-                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367191/View"
+                "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367191/View",
+                "type": "Link"
             }
         ]
     }

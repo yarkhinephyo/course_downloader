@@ -8,6 +8,13 @@ import time
 import os
 import json
 
+# ----------------
+
+timeout = 10
+download_blacklist = ["Video", "Web Page"]
+
+# ----------------
+
 def wait_by_xpath(browser, timeout, path):
     try:
         WebDriverWait(browser, timeout).until(EC.visibility_of_element_located((By.XPATH, path)))
@@ -50,15 +57,43 @@ def make_directories(course_links):
         if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials', course_name)):
             os.mkdir(os.path.join(os.curdir, 'Updated_materials', course_name))
 
+def get_browser(absolute_download_path=None):
+    option = webdriver.ChromeOptions()
+    option.add_argument("--incognito")
+    if absolute_download_path:
+        prefs = {
+            "download.default_directory": absolute_download_path,
+            "download.prompt_for_download": False,
+            "download.directory_upgrade": True
+        }
+        option.add_experimental_option('prefs', prefs)
+    return webdriver.Chrome(executable_path='chromedriver.exe', options=option)
+
+# Save as chrome shortcut
+def save_shortcut(save_path, item):
+    with open(os.path.join(save_path, item['name'] + '.url'), 'w') as shortcut:
+        shortcut.write("[InternetShortcut]\n")
+        shortcut.write(f"URL={item['link']}")
+
+# Download or else save as chrome shortcut
+def download_item(browser, item, save_path, download_blacklist):
+    if item['type'] in download_blacklist:
+        save_shortcut(save_path, item)
+        return
+
+    browser.get(item['link'])
+    wait_by_xpath(browser, timeout, f"//h1[text()='{item['name']}']")
+    try:
+        download = browser.find_element_by_xpath("//button[text()='Download']")
+        download.click()
+        time.sleep(1)
+        wait_by_xpath(browser, 20, f"//h1[text()='{item['name']}']")
+    except NoSuchElementException:
+        save_shortcut(save_path, item)
+
 # -------------- METHODS ABOVE --------------- #
 
-option = webdriver.ChromeOptions()
-option.add_argument("--incognito")
-
-browser = webdriver.Chrome(executable_path='chromedriver.exe', options=option)
-timeout = 10
-
-# --------- Login Page --------- #
+browser = get_browser()
 
 with open('user.txt', 'r') as f:
     text = f.read()
@@ -125,11 +160,16 @@ for course_id, (course_name, course_link) in course_links.items():
         title = section.find_element_by_xpath(".//div/div/h2[contains(@class,'d2l-heading') and contains(@class,'vui-heading-4')]")
         present_state[course_id][title.text] = []
 
-        items = section.find_elements_by_xpath(".//div/div/div/ul/li")
-        for item in items:
-            item = item.find_element_by_xpath(".//a[contains(@class,'d2l-link')]")
+        list_items = section.find_elements_by_xpath(".//div/div/div/ul/li")
+        for list_item in list_items:
+            item = list_item.find_element_by_xpath(".//a[contains(@class,'d2l-link')]")
             link = item.get_attribute('href')
-            present_state[course_id][title.text].append({'name': item.text, 'link' : link})
+            try:
+                item_type = list_item.find_element_by_xpath(".//a[contains(@class,'d2l-link')]/following-sibling::div[1]/div").text
+            except NoSuchElementException:
+                item_type = ''
+            present_state[course_id][title.text].append({'name': item.text, 'link' : link, 'type': item_type})
+
             if "javascript" in link:
                 problem_sections.add(title.text)
     
@@ -140,23 +180,62 @@ for course_id, (course_name, course_link) in course_links.items():
         wait_by_xpath(browser, timeout, f"//h1[contains(@class,'vui-heading-1') and contains(text(),'{problem_section_title}')]")
         present_state[course_id][problem_section_title] = []
 
-        inner_items = browser.find_elements_by_xpath("//div[@class='d2l-placeholder']/div/div/ul//ul/li//a[@class='d2l-link']")
+        inner_items = browser.find_elements_by_xpath("//div[@class='d2l-placeholder']/div/div/ul//ul/li//a[contains(@class,'d2l-link')]")
         for inner_item in inner_items:
             link = inner_item.get_attribute('href')
-            present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link})
+            try:
+                item_type = browser.find_element_by_xpath("//ul//ul/li//a[contains(@class,'d2l-link')]/following-sibling::div[1]/div").text
+            except NoSuchElementException:
+                item_type = ''
+            present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link, 'type': item_type})
 
+with open('state.json', 'w') as f:
+    json.dump(present_state, f, indent = 4)
 
 # Make directories for downloaded files if not exist
 make_directories(course_links)
+browser.quit()
 
-if is_initial:
-    with open('state.json', 'w') as f:
-        json.dump(present_state, f, indent = 4)
-    browser.quit()
-
-# --------- If this is not the first time --------- #
+# # --------- If this is not the first time --------- #
     
-# else:
-#     # DIFFERENCE DICTIONARY
-#     difference_state = {}
-#     for course_id, course_dict in difference_state:
+if not is_initial:
+    # DIFFERENCE DICTIONARY
+    difference_state = {
+        # "247916": {
+        # "Start Here": [
+        #     {
+        #         "name": "INTRODUCTION",
+        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367155/View",
+        #         "type": "Web Page"
+        #     },
+        #     {
+        #         "name": "eLearn Overview",
+        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367196/View",
+        #         "type": "Video"
+        #     },
+        #     {
+        #         "name": "Course Description",
+        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367157/View",
+        #         "type": "Web Page"
+        #     },
+        #     {
+        #         "name": "Video Tutorial- Navigation in eLearn",
+        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367158/View",
+        #         "type": "Link"
+        #     }
+        # ]
+        # }
+    }
+    for course_id, course_dict in difference_state.items():
+        save_path = os.path.join(os.getcwd(), 'Updated_materials', course_links[course_id][0]) + os.path.sep
+
+        browser = get_browser(save_path)
+        log_in(browser, "https://elearn.smu.edu.sg/d2l/lp/auth/saml/login", timeout, username, password)
+        wait_by_xpath(browser, timeout, "//d2l-navigation-main-footer/div[@slot='main']")
+
+        for section_title, item_list in course_dict.items():
+            for item in item_list:
+                download_item(browser, item, save_path, download_blacklist)
+        
+        # Display announcements
+        browser.get(f"https://elearn.smu.edu.sg/d2l/home/{course_id}")
