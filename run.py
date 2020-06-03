@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import os
+import json
 
 def wait_by_xpath(browser, timeout, path):
     try:
@@ -62,6 +64,12 @@ with open('courses.txt', 'r') as f:
     for course in text.split('\n'):
         courses.append(course)
 
+if 'state.json' in os.listdir(os.curdir):
+    past_state = json.load(open('state.json', 'r'))
+    is_initial = False
+else:
+    is_initial = True
+
 log_in(browser, "https://elearn.smu.edu.sg/d2l/lp/auth/saml/login", timeout, username, password)
 
 # --------- Elearn Home --------- #
@@ -73,7 +81,7 @@ menu_button = get_menu_button(browser)
 menu_button.click()
 
 # Wait for menu
-wait_by_xpath(browser, timeout, "//div/span/d2l-button-icon[starts-with(@icon,'tier1:pin-')]")
+wait_by_xpath(browser, timeout, "//nav//ul/li//a")
 print(courses)
 
 # Search for course IDs in menu
@@ -117,7 +125,7 @@ for course_id, course_link in course_links:
             present_state[course_id][title.text].append({'name': item.text, 'link' : link})
             if "javascript" in link:
                 problem_sections.add(title.text)
-
+    
     # If links not found in Table of Contents, check on individual sections
     for problem_section_title in problem_sections:
         side_title = section.find_element_by_xpath(f"//a/div/div/div/div/div/div[contains(text(),'{problem_section_title}')]")
@@ -130,3 +138,7 @@ for course_id, course_link in course_links:
             link = inner_item.get_attribute('href')
             present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link})
 
+if is_initial:
+    with open('state.json', 'w') as f:
+        json.dump(present_state, f, indent = 4)
+    browser.quit()
