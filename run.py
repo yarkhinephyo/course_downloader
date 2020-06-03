@@ -132,20 +132,21 @@ def get_difference_state(present_state, past_state):
 # -------------- METHODS ABOVE --------------- #
 
 browser = get_browser()
+userdata_folder = os.path.join(os.curdir, 'userdata')
 
-with open('user.txt', 'r') as f:
+with open(os.path.join(userdata_folder, 'user.txt'), 'r') as f:
     text = f.read()
     username = text.split('\n')[0]
     password = text.split('\n')[1]
 
 courses = []
-with open('courses.txt', 'r') as f:
+with open(os.path.join(userdata_folder, 'courses.txt') , 'r') as f:
     text = f.read()
     for course in text.split('\n'):
         courses.append(course)
 
-if 'state.json' in os.listdir(os.curdir):
-    past_state = json.load(open('state.json', 'r'))
+if 'state.json' in os.listdir(userdata_folder):
+    past_state = json.load(open(os.path.join(userdata_folder, 'state.json'), 'r'))
     is_initial = False
 else:
     is_initial = True
@@ -227,7 +228,7 @@ for course_id, (course_name, course_link) in course_links.items():
                 item_type = ''
             present_state[course_id][problem_section_title].append({'name': inner_item.text, 'link' : link, 'type': item_type})
 
-with open('state.json', 'w') as f:
+with open(os.path.join(userdata_folder, 'state.json'), 'w') as f:
     json.dump(present_state, f, indent = 4)
 
 # Make directories for downloaded files if not exist
@@ -239,7 +240,7 @@ browser.quit()
 if not is_initial:
     # DIFFERENCE DICTIONARY
     difference_state = get_difference_state(present_state, past_state)
-    print(difference_state)
+    # print(difference_state)
     # difference_state = {
         # "247916": {
         # "Start Here": [
