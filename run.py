@@ -8,6 +8,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 import os
 import json
+import re
 
 # ----------------
 
@@ -59,10 +60,17 @@ def navigate_up_directory(iteration):
         os.chdir("..")
     return cwd
 
+# Replace illegal characters in filename
+def replace_illegal_ch(og_name):
+    illegal_chars = re.escape('\\/:*?"<>|')
+    return re.sub(r'['+illegal_chars+']', '', og_name)
+
 def make_directories(course_links):
     for course_id, (course_name, course_link) in course_links.items():
         if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials')):
             os.mkdir(os.path.join(os.curdir, 'Updated_materials'))
+
+        course_name = replace_illegal_ch(course_name)
         if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials', course_name)):
             os.mkdir(os.path.join(os.curdir, 'Updated_materials', course_name))
 
@@ -83,15 +91,17 @@ def get_browser(absolute_download_path=None):
     return webdriver.Chrome(desired_capabilities=caps, executable_path='./userdata/chromedriver.exe', options=option)
 
 # Save as chrome shortcut
-def save_shortcut(save_path, item):
-    with open(os.path.join(save_path, item['name'] + '.url'), 'w') as shortcut:
+def save_shortcut(save_path, item, legal_item_name):
+    with open(os.path.join(save_path, legal_item_name + '.url'), 'w') as shortcut:
         shortcut.write("[InternetShortcut]\n")
         shortcut.write(f"URL={item['link']}")
 
 # Download or else save as chrome shortcut
 def download_item(browser, item, save_path, download_blacklist):
+    legal_item_name = replace_illegal_ch(item['name'])
+
     if item['type'] in download_blacklist:
-        save_shortcut(save_path, item)
+        save_shortcut(save_path, item, legal_item_name)
         return
 
     browser.get(item['link'])
@@ -102,7 +112,7 @@ def download_item(browser, item, save_path, download_blacklist):
         time.sleep(1)
         wait_by_xpath(browser, 20, f"//h1[text()='{item['name']}']")
     except NoSuchElementException:
-        save_shortcut(save_path, item)
+        save_shortcut(save_path, item, legal_item_name)
 
 # Gets the difference state dictionary from past state to present state of file listings
 def get_difference_state(present_state, past_state):
@@ -119,6 +129,8 @@ def get_difference_state(present_state, past_state):
 
         for section_title, item_list in course_dict.items():
             if section_title not in past_course_dict.keys():
+                if course_id not in result_dict.keys():
+                    result_dict[course_id] = {}
                 result_dict[course_id][section_title] = item_list
                 continue
 
@@ -258,7 +270,7 @@ if not is_initial:
     difference_state = get_difference_state(present_state, past_state)
     # print(difference_state)
     for course_id, course_dict in difference_state.items():
-        save_path = os.path.join(os.getcwd(), 'Updated_materials', course_links[course_id][0]) + os.path.sep
+        save_path = os.path.join(os.getcwd(), 'Updated_materials', replace_illegal_ch(course_links[course_id][0])) + os.path.sep
 
         browser = get_browser(save_path)
         log_in(browser, "https://elearn.smu.edu.sg/d2l/lp/auth/saml/login", timeout, username, password)
