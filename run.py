@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC 
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 import os
 import json
@@ -13,6 +14,8 @@ import json
 timeout = 10
 download_blacklist = ["Video", "Web Page"]
 
+DEBUG_MODE = True
+
 # ----------------
 
 def wait_by_xpath(browser, timeout, path):
@@ -21,7 +24,7 @@ def wait_by_xpath(browser, timeout, path):
     except TimeoutException:
         print("Timed out waiting for page to load")
         browser.quit()
-    time.sleep(0.4)
+    time.sleep(0.5)
 
 def expand_shadow_element(browser, element):
     shadow_root = browser.execute_script('return arguments[0].shadowRoot', element)
@@ -50,6 +53,12 @@ def log_in(browser, link, timeout, username, password):
     login = browser.find_element_by_xpath("//span[@id='submitButton']")
     login.click()
 
+def navigate_up_directory(iteration):
+    cwd = os.getcwd()
+    for i in range(iteration):
+        os.chdir("..")
+    return cwd
+
 def make_directories(course_links):
     for course_id, (course_name, course_link) in course_links.items():
         if not os.path.isdir(os.path.join(os.curdir, 'Updated_materials')):
@@ -58,6 +67,10 @@ def make_directories(course_links):
             os.mkdir(os.path.join(os.curdir, 'Updated_materials', course_name))
 
 def get_browser(absolute_download_path=None):
+    # Don't wait for whole page to load
+    caps = DesiredCapabilities().CHROME
+    caps["pageLoadStrategy"] = "none"
+
     option = webdriver.ChromeOptions()
     option.add_argument("--incognito")
     if absolute_download_path:
@@ -67,7 +80,7 @@ def get_browser(absolute_download_path=None):
             "download.directory_upgrade": True
         }
         option.add_experimental_option('prefs', prefs)
-    return webdriver.Chrome(executable_path='chromedriver.exe', options=option)
+    return webdriver.Chrome(desired_capabilities=caps, executable_path='./userdata/chromedriver.exe', options=option)
 
 # Save as chrome shortcut
 def save_shortcut(save_path, item):
@@ -130,6 +143,9 @@ def get_difference_state(present_state, past_state):
     return result_dict
 
 # -------------- METHODS ABOVE --------------- #
+
+if not DEBUG_MODE:
+    navigate_up_directory(2)
 
 browser = get_browser()
 userdata_folder = os.path.join(os.curdir, 'userdata')
@@ -241,32 +257,6 @@ if not is_initial:
     # DIFFERENCE DICTIONARY
     difference_state = get_difference_state(present_state, past_state)
     # print(difference_state)
-    # difference_state = {
-        # "247916": {
-        # "Start Here": [
-        #     {
-        #         "name": "INTRODUCTION",
-        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367155/View",
-        #         "type": "Web Page"
-        #     },
-        #     {
-        #         "name": "eLearn Overview",
-        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367196/View",
-        #         "type": "Video"
-        #     },
-        #     {
-        #         "name": "Course Description",
-        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367157/View",
-        #         "type": "Web Page"
-        #     },
-        #     {
-        #         "name": "Video Tutorial- Navigation in eLearn",
-        #         "link": "https://elearn.smu.edu.sg/d2l/le/content/247916/viewContent/1367158/View",
-        #         "type": "Link"
-        #     }
-        # ]
-        # }
-    # }
     for course_id, course_dict in difference_state.items():
         save_path = os.path.join(os.getcwd(), 'Updated_materials', course_links[course_id][0]) + os.path.sep
 

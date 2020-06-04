@@ -4,3 +4,6 @@ debug.log
 user.txt
 notes.txt
 Updated_materials
+build
+dist
+__pycache__
