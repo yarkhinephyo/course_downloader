@@ -104,29 +104,29 @@ def get_difference_state(present_state, past_state):
         # Check if the section title has already been saved
         past_course_dict = past_state[course_id]
 
-        for title, items in course_dict.items():
-            if title not in past_course_dict.keys():
-                result_dict[course_id][title] = items
+        for section_title, item_list in course_dict.items():
+            if section_title not in past_course_dict.keys():
+                result_dict[course_id][section_title] = item_list
                 continue
 
             # Check if the file name has already been saved
-            past_items = past_course_dict[title]
+            past_item_list = past_course_dict[section_title]
             
-            for item_dict in items:
+            for item_dict in item_list:
                 in_previous = False
                 item_name = item_dict['name']
 
-                for past_item_dict in past_items:
+                for past_item_dict in past_item_list:
                     if past_item_dict['name'] == item_name:
                         in_previous = True
 
                 if not in_previous:
                     if course_id not in result_dict.keys():
                         result_dict[course_id] = {}
-                    if title not in result_dict[course_id].keys():
-                        result_dict[course_id][title] = []
+                    if section_title not in result_dict[course_id].keys():
+                        result_dict[course_id][section_title] = []
                     
-                    result_dict[course_id][title].append(item_dict)
+                    result_dict[course_id][section_title].append(item_dict)
     return result_dict
 
 # -------------- METHODS ABOVE --------------- #
@@ -267,6 +267,7 @@ if not is_initial:
         # ]
         # }
     # }
+
     for course_id, course_dict in difference_state.items():
         save_path = os.path.join(os.getcwd(), 'Updated_materials', course_links[course_id][0]) + os.path.sep
 
